@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Commentary;
 use App\Form\CommentaryType;
 use App\Repository\CommentaryRepository;
@@ -21,22 +22,26 @@ class CommentaryController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_commentary_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CommentaryRepository $commentaryRepository): Response
+    #[Route('/new/{id}', name: 'app_commentary_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, Article $article, CommentaryRepository $commentaryRepository): Response
     {
         $commentary = new Commentary();
+        $commentary
+            ->setArticle($article)
+            ->setUser($this->getUser())
+        ;
         $form = $this->createForm(CommentaryType::class, $commentary);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commentaryRepository->save($commentary, true);
 
-            return $this->redirectToRoute('app_commentary_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('commentary/new.html.twig', [
             'commentary' => $commentary,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -48,7 +53,7 @@ class CommentaryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_commentary_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'app_commentary_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Commentary $commentary, CommentaryRepository $commentaryRepository): Response
     {
         $form = $this->createForm(CommentaryType::class, $commentary);

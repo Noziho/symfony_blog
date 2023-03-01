@@ -31,6 +31,10 @@
                             </a>
                         {% endif %}
                     </div>
+
+                    {% if app.user %}
+                        <a id="white_link" href="{{ path('app_commentary_new', {'id': article.id}) }}">Ajouter un commentaire</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         {% else %}

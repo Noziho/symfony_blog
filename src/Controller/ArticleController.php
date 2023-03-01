@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Form\CommentaryType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,9 +26,7 @@ class ArticleController extends AbstractController
     public function new(Request $request, ArticleRepository $articleRepository): Response
     {
         if (!$this->isGranted('ROLE_AUTHOR')) {
-            return $this->render('home/index.html.twig', [
-                'articles' => $articleRepository->findAll(),
-            ]);
+            return $this->redirectToRoute('app_home');
         }
 
         $article = new Article();
@@ -40,10 +39,8 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('article/new.html.twig', [
-            'article' => $article,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_home');
+
     }
 
     #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
@@ -82,14 +79,12 @@ class ArticleController extends AbstractController
     public function delete(Request $request, Article $article, ArticleRepository $articleRepository): Response
     {
         if (!$this->isGranted('ROLE_AUTHOR')) {
-            return $this->render('home/index.html.twig', [
-                'articles' => $articleRepository->findAll(),
-            ]);
+            return $this->redirectToRoute('app_home');
         }
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
             $articleRepository->remove($article, true);
         }
 
-        return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 }
