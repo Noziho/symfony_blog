@@ -13,17 +13,23 @@
         {% endblock %}
     </head>
     <header>
-        <a href="/">Home</a>
-        {% if app.user %}
-            <a href="/logout">Logout</a>
+        <div>
+            <h1><a href="/">Symfo blog</a></h1>
+        </div>
+
+        <div>
+            {% if app.user %}
+                <a href="/logout">Logout</a>
             {% else %}
                 <a href="/register">Register</a>
                 <a href="/login">Login</a>
-        {% endif %}
-
+            {% endif %}
+        </div>
 
     </header>
     <body>
+    <div class="container">
         {% block body %}{% endblock %}
+    </div>
     </body>
 </html>

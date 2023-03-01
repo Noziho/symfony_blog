@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Commentary;
-use App\Form\Commentary1Type;
+use App\Form\CommentaryType;
 use App\Repository\CommentaryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class CommentaryController extends AbstractController
     public function new(Request $request, CommentaryRepository $commentaryRepository): Response
     {
         $commentary = new Commentary();
-        $form = $this->createForm(Commentary1Type::class, $commentary);
+        $form = $this->createForm(CommentaryType::class, $commentary);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class CommentaryController extends AbstractController
     #[Route('/{id}/edit', name: 'app_commentary_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Commentary $commentary, CommentaryRepository $commentaryRepository): Response
     {
-        $form = $this->createForm(Commentary1Type::class, $commentary);
+        $form = $this->createForm(CommentaryType::class, $commentary);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

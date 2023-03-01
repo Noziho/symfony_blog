@@ -3,9 +3,38 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<h1>Home page</h1>
+    <h1>Home page</h1>
 
     {% if app.user %}
         <h1>Welcome {{ app.user.email }}</h1>
+        {% if is_granted('ROLE_AUTHOR') %}
+            <a href="{{ path('app_article_new') }}">Ajoutez un article</a>
+        {% endif %}
     {% endif %}
+    <div class="articles_container">
+        {% if articles is defined %}
+            {% for article in articles %}
+                <div class="article">
+                    <h1>{{ article.title }}</h1>
+                    <div class="article_description">
+                        <p>{{ article.description }}</p>
+                    </div>
+
+                    <div class="edit_delete_container">
+
+                        <a href="{{ path('app_article_show', {'id': article.id}) }}">
+                            <button>Show</button>
+                        </a>
+                        {% if is_granted('ROLE_AUTHOR') %}
+                            <a href="{{ path('app_article_edit', {'id': article.id}) }}">
+                                <button>Edit</button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No article yet</p>
+        {% endif %}
+    </div>
 {% endblock %}

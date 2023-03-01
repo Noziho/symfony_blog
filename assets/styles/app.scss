@@ -1,3 +1,66 @@
-body {
-    background-color: lightgray;
+html {
+    font-size: 62.5%;
 }
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+* a {
+    text-decoration: none;
+    color: #333333;
+}
+
+body {
+    background-color: #c3c3c3;
+    font-size: 1.6rem;
+}
+
+header {
+    width: 100%;
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #909090;
+
+    a {
+        margin-inline: 2rem;
+    }
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.articles_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+}
+
+.article {
+    width: 80%;
+    display: flex;
+    padding: 3rem;
+    flex-flow: row wrap;
+    background: #333333;
+    color: #eff6ff;
+    margin-top: 5rem;
+    div {
+        width: 100%;
+    }
+
+}
+
+.edit_delete_container > a > button {
+    padding: 0.5rem;
+    cursor: pointer;
+    border: none;
+}
+

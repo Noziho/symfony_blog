@@ -13,6 +13,7 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('description')
             ->add('content')
         ;
     }
