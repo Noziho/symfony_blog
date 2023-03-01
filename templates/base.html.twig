@@ -12,6 +12,17 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+    <header>
+
+        {% if app.user %}
+            <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/register">Register</a>
+                <a href="/login">Login</a>
+        {% endif %}
+
+
+    </header>
     <body>
         {% block body %}{% endblock %}
     </body>
