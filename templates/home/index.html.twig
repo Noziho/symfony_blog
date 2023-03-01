@@ -35,6 +35,13 @@
                     {% if app.user %}
                         <a id="white_link" href="{{ path('app_commentary_new', {'id': article.id}) }}">Ajouter un commentaire</a>
                     {% endif %}
+
+                    {% for comment in article.commentaries.values %}
+                        <div class="comment">
+                            <p><b>{{ comment.user.email }}</b></p>
+                            <p>{{ comment.message }}</p>
+                        </div>
+                    {% endfor %}
                 </div>
             {% endfor %}
         {% else %}

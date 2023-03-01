@@ -25,6 +25,9 @@ class CommentaryController extends AbstractController
     #[Route('/new/{id}', name: 'app_commentary_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Article $article, CommentaryRepository $commentaryRepository): Response
     {
+        if (!$this->isGranted('ROLE_USER')) {
+            $this->redirectToRoute('app_home');
+        }
         $commentary = new Commentary();
         $commentary
             ->setArticle($article)
