@@ -13,6 +13,10 @@ html {
     color: #333333;
 }
 
+* a:hover {
+    transition: 0.5s;
+}
+
 body {
     background-color: #c3c3c3;
     font-size: 1.6rem;

@@ -27,6 +27,16 @@
                     <div class="comment">
                         <p><b>{{ comment.user.email }}</b></p>
                         <p>{{ comment.message }}</p>
+                        {% if is_granted('ROLE_MODERATOR') %}
+                            <div class="edit_delete_container">
+                                <a href="{{ path('app_commentary_edit', {'id': comment.id}) }}">
+                                    <button class="bg-success">Edit</button>
+                                </a>
+                                <a href="{{ path('app_commentary_delete', {'id': comment.id}) }}">
+                                    <button class="bg-danger">Delete</button>
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>

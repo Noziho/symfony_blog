@@ -18,9 +18,8 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_commentary_index') }}">back to list</a>
 
-    <a href="{{ path('app_commentary_edit', {'id': commentary.id}) }}">edit</a>
+    <a class="w-25" href="{{ path('app_commentary_edit', {'id': commentary.id}) }}"><button class="bg-success border-success w-100">Edit</button></a>
 
     {{ include('commentary/_delete_form.html.twig') }}
 {% endblock %}

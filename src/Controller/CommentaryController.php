@@ -14,14 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/commentary')]
 class CommentaryController extends AbstractController
 {
-    #[Route('/', name: 'app_commentary_index', methods: ['GET'])]
-    public function index(CommentaryRepository $commentaryRepository): Response
-    {
-        return $this->render('commentary/index.html.twig', [
-            'commentaries' => $commentaryRepository->findAll(),
-        ]);
-    }
-
     #[Route('/new/{id}', name: 'app_commentary_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Article $article, CommentaryRepository $commentaryRepository): Response
     {
@@ -59,13 +51,16 @@ class CommentaryController extends AbstractController
     #[Route('/edit/{id}', name: 'app_commentary_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Commentary $commentary, CommentaryRepository $commentaryRepository): Response
     {
+        if (!$this->isGranted('ROLE_MODERATOR')) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(CommentaryType::class, $commentary);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commentaryRepository->save($commentary, true);
 
-            return $this->redirectToRoute('app_commentary_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_article_show', ['id' => $commentary->getArticle()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('commentary/edit.html.twig', [
@@ -77,10 +72,14 @@ class CommentaryController extends AbstractController
     #[Route('/{id}', name: 'app_commentary_delete', methods: ['POST'])]
     public function delete(Request $request, Commentary $commentary, CommentaryRepository $commentaryRepository): Response
     {
+        if (!$this->isGranted('ROLE_MODERATOR')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$commentary->getId(), $request->request->get('_token'))) {
             $commentaryRepository->remove($commentary, true);
         }
 
-        return $this->redirectToRoute('app_commentary_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_article_show', ['id' => $commentary->getArticle()->getId()], Response::HTTP_SEE_OTHER);
     }
 }
