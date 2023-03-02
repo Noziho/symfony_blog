@@ -23,16 +23,7 @@
                         <a href="{{ path('app_article_show', {'id': article.id}) }}">
                             <button>Show</button>
                         </a>
-                        {% if is_granted('ROLE_AUTHOR') %}
-                            <a href="{{ path('app_article_edit', {'id': article.id}) }}">
-                                <button>Edit</button>
-                            </a>
-                        {% endif %}
                     </div>
-
-                    {% if app.user %}
-                        <a id="white_link" href="{{ path('app_commentary_new', {'id': article.id}) }}">Ajouter un commentaire</a>
-                    {% endif %}
                 </div>
             {% endfor %}
         {% else %}

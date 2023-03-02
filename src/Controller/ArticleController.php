@@ -25,6 +25,7 @@ class ArticleController extends AbstractController
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ArticleRepository $articleRepository): Response
     {
+
         if (!$this->isGranted('ROLE_AUTHOR')) {
             return $this->redirectToRoute('app_home');
         }
@@ -36,10 +37,12 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $articleRepository->save($article, true);
 
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->redirectToRoute('app_home');
+        return $this->render('article/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
 
     }
 
@@ -66,12 +69,12 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $articleRepository->save($article, true);
 
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_article_show', ['id'=> $article->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('article/edit.html.twig', [
             'article' => $article,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
