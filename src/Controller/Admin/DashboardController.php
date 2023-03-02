@@ -18,7 +18,6 @@ class DashboardController extends AbstractDashboardController
     {
 
     }
-
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -48,7 +47,5 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Comments');
         yield MenuItem::linkToCrud('Comments', 'fas fa-message', Commentary::class);
 
-
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
