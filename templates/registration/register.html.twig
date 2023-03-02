@@ -4,13 +4,14 @@
 
 {% block body %}
     <h1>Register</h1>
-
-    {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
-    {{ form_start(registrationForm) }}
+    <div class="container-fluid mt4 w-50">
+        {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
+        {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
-    {{ form_end(registrationForm) }}
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

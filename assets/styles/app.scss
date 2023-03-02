@@ -76,10 +76,12 @@ header {
     color: #eff6ff;
 }
 
-form {
-    width: 80%;
-    input {
-        padding: 0.5rem;
-    }
+
+.form-control, .btn-primary {
+    font-size: 1.6rem;
+}
+
+label {
+    margin-top: 2rem;
 }
 
