@@ -37,6 +37,9 @@ class Article
     #[ORM\Column(length: 10)]
     private ?string $image_ext = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?User $author = null;
+
     public function __construct()
     {
         $this->commentaries = new ArrayCollection();
@@ -151,6 +154,18 @@ class Article
     public function setImageExt(string $image_ext): self
     {
         $this->image_ext = $image_ext;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
