@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\CommentaryType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
