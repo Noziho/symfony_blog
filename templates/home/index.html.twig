@@ -14,6 +14,9 @@
             {% for article in articles %}
                 <div class="article">
                     <h1>{{ article.title }}</h1>
+                    <div class="img-thumbnail">
+                        <img class="card-img" src="{{ asset('/build/images/imageArticles/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
+                    </div>
                     <div class="article_description">
                         <p>{{ article.description }}</p>
                     </div>
