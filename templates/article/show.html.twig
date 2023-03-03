@@ -7,7 +7,9 @@
     <div class="articles_container">
         <div class="article">
             <h1>{{ article.title }}</h1>
-
+            <div class="img-thumbnail container_article_image">
+                <img class="card-img article_image" src="{{ asset('/build/images/imageArticles/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
+            </div>
             <div class="article_content">
                 <p>{{ article.content }}</p>
             </div>
@@ -38,7 +40,7 @@
                 </div>
             {% endif %}
 
-            {% if is_granted('ROLE_AUTHOR') %}
+            {% if is_granted('ROLE_AUTHOR') and app.user is same as(article.author)  %}
                 <a class="w-25 mt-4" href="{{ path('app_article_edit', {'id': article.id}) }}">
                     <button class="bg-success border-success w-100">Edit</button>
                 </a>
