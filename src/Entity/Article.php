@@ -28,6 +28,15 @@ class Article
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[ORM\Column]
+    private ?bool $is_published = false;
+
+    #[ORM\Column(length: 255)]
+    private ?string $image_name = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $image_ext = null;
+
     public function __construct()
     {
         $this->commentaries = new ArrayCollection();
@@ -107,5 +116,42 @@ class Article
     public function __toString () :string
     {
         return $this->title;
+    }
+
+    public function isIsPublished(): ?bool
+    {
+        return $this->is_published;
+
+    }
+
+    public function setIsPublished(bool $is_published): self
+    {
+        $this->is_published = $is_published;
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->image_name;
+    }
+
+    public function setImageName(string $image_name): self
+    {
+        $this->image_name = $image_name;
+
+        return $this;
+    }
+
+    public function getImageExt(): ?string
+    {
+        return $this->image_ext;
+    }
+
+    public function setImageExt(string $image_ext): self
+    {
+        $this->image_ext = $image_ext;
+
+        return $this;
     }
 }

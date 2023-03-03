@@ -7,9 +7,11 @@ use App\Form\ArticleType;
 use App\Form\CommentaryType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/article')]
 class ArticleController extends AbstractController
@@ -23,7 +25,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ArticleRepository $articleRepository): Response
+    public function new(Request $request, ArticleRepository $articleRepository, SluggerInterface $slugger, ParameterBagInterface $container): Response
     {
 
         if (!$this->isGranted('ROLE_AUTHOR')) {
@@ -35,6 +37,30 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form['imageName']->getData();
+
+            if ($file) {
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($originalFileName);
+                $newFileName = $safeFileName. '-' .uniqid();
+                $article->setImageName($newFileName);
+
+                $ext = $file->guessExtension();
+
+                if (!$ext) {
+                    $ext = 'bin';
+                }
+
+                $article->setImageExt($ext);
+
+                $file->move($container->get('upload.directory'), $newFileName . '.' . $ext);
+
+            }
+            else {
+                $article->setImageName('defaultImage');
+                $article->setImageExt('png');
+            }
+
             $articleRepository->save($article, true);
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
