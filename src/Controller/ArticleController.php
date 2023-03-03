@@ -33,6 +33,7 @@ class ArticleController extends AbstractController
         }
 
         $article = new Article();
+        $article->setAuthor($this->getUser());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -83,10 +84,8 @@ class ArticleController extends AbstractController
     #[Route('/edit/{id}', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, ArticleRepository $articleRepository): Response
     {
-        if (!$this->isGranted('ROLE_AUTHOR')) {
-            return $this->render('home/index.html.twig', [
-                'articles' => $articleRepository->findAll(),
-            ]);
+        if (!$this->isGranted('ROLE_AUTHOR') || $this->getUser() !== $article->getAuthor()) {
+            return $this->redirectToRoute('app_home');
         }
 
         $form = $this->createForm(ArticleType::class, $article);
@@ -107,7 +106,7 @@ class ArticleController extends AbstractController
     #[Route('/delete/{id}', name: 'app_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, ArticleRepository $articleRepository): Response
     {
-        if (!$this->isGranted('ROLE_AUTHOR')) {
+        if (!$this->isGranted('ROLE_AUTHOR') || $this->getUser() !== $article->getAuthor()) {
             return $this->redirectToRoute('app_home');
         }
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {

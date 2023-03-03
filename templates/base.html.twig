@@ -19,10 +19,11 @@
 
         <div>
             {% if app.user %}
-                <a href="/logout">Logout</a>
+                <a href="{{ path('app_user') }}">Profile</a>
+                <a href="{{ path('app_logout') }}">Logout</a>
             {% else %}
-                <a href="/register">Register</a>
-                <a href="/login">Login</a>
+                <a href="{{ path('app_register') }}">Register</a>
+                <a href="{{ path('app_login') }}">Login</a>
             {% endif %}
         </div>
 

@@ -12,22 +12,24 @@
     <div class="articles_container">
         {% if articles is defined %}
             {% for article in articles %}
-                <div class="article">
-                    <h1>{{ article.title }}</h1>
-                    <div class="img-thumbnail">
-                        <img class="card-img" src="{{ asset('/build/images/imageArticles/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
-                    </div>
-                    <div class="article_description">
-                        <p>{{ article.description }}</p>
-                    </div>
+                {% if article.isPublished %}
+                    <div class="article">
+                        <h1>{{ article.title }}</h1>
+                        <div class="img-thumbnail">
+                            <img class="card-img" src="{{ asset('/build/images/imageArticles/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
+                        </div>
+                        <div class="article_description">
+                            <p>{{ article.description }}</p>
+                        </div>
 
-                    <div class="edit_delete_container">
+                        <div class="edit_delete_container">
 
-                        <a href="{{ path('app_article_show', {'id': article.id}) }}">
-                            <button>Show</button>
-                        </a>
+                            <a href="{{ path('app_article_show', {'id': article.id}) }}">
+                                <button>Show</button>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>No article yet</p>

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+    <h1>Your profile</h1>
+    <h2>AVATAR ETC BLABLA</h2>
+
+
+    <div class="articles_container">
+        <h2>Your articles: </h2>
+        {% for article in user.articles.values %}
+            <div class="article">
+                <h2>{{ article.title }}</h2>
+                <div class="img-thumbnail">
+                    <img class="card-img" src="{{ asset('/build/images/imageArticles/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
+                </div>
+                <div class="article_content">
+                    <p>{{ article.content }}</p>
+                </div>
+                <div>
+                    <a href="{{ path('app_article_edit', {'id': article.id}) }}"><button class="border-success bg-success">Publish status</button></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
