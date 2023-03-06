@@ -18,4 +18,27 @@ class UserController extends AbstractController
             'user' => $this->getUser(),
         ]);
     }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/random')]
+    public function getRandomAvatar(): string
+    {
+        $avatars =
+            [
+                '/build/images/avatar1',
+                '/build/images/avatar2',
+                '/build/images/avatar3',
+                '/build/images/avatar4',
+                '/build/images/avatar5',
+                '/build/images/avatar6',
+                '/build/images/avatar7',
+                '/build/images/avatar8',
+            ];
+
+        $random = array_rand($avatars);
+
+        return $avatars[$random];
+    }
 }
