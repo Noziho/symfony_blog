@@ -38,31 +38,7 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form['imageName']->getData();
-
-            if ($file) {
-                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFileName = $slugger->slug($originalFileName);
-                $newFileName = $safeFileName. '-' .uniqid();
-                $article->setImageName($newFileName);
-
-                $ext = $file->guessExtension();
-
-                if (!$ext) {
-                    $ext = 'bin';
-                }
-
-                $article->setImageExt($ext);
-
-                $file->move($container->get('upload.directory'), $newFileName . '.' . $ext);
-
-            }
-            else {
-                $article->setImageName('defaultImage');
-                $article->setImageExt('png');
-            }
-
-            $articleRepository->save($article, true);
+            $this->uploadImage($form['imageName'], $slugger, $article, $container, $articleRepository);
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
@@ -82,7 +58,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'app_article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, ArticleRepository $articleRepository): Response
+    public function edit(Request $request, Article $article, ArticleRepository $articleRepository,SluggerInterface $slugger, ParameterBagInterface $container): Response
     {
         if (!$this->isGranted('ROLE_AUTHOR') || $this->getUser() !== $article->getAuthor()) {
             return $this->redirectToRoute('app_home');
@@ -92,7 +68,7 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $articleRepository->save($article, true);
+            $this->uploadImage($form['imageName'], $slugger, $article, $container, $articleRepository);
 
             return $this->redirectToRoute('app_article_show', ['id'=> $article->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -114,5 +90,41 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @param $imageName
+     * @param SluggerInterface $slugger
+     * @param Article $article
+     * @param ParameterBagInterface $container
+     * @param ArticleRepository $articleRepository
+     * @return void
+     */
+    public function uploadImage($imageName, SluggerInterface $slugger, Article $article, ParameterBagInterface $container, ArticleRepository $articleRepository): void
+    {
+        $file = $imageName->getData();
+
+        if ($file) {
+            $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFileName = $slugger->slug($originalFileName);
+            $newFileName = $safeFileName . '-' . uniqid();
+            $article->setImageName($newFileName);
+
+            $ext = $file->guessExtension();
+
+            if (!$ext) {
+                $ext = 'bin';
+            }
+
+            $article->setImageExt($ext);
+
+            $file->move($container->get('upload.directory'), $newFileName . '.' . $ext);
+
+        } else {
+            $article->setImageName('defaultImage');
+            $article->setImageExt('png');
+        }
+
+        $articleRepository->save($article, true);
     }
 }

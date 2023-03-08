@@ -23,16 +23,16 @@ class ArticleType extends AbstractType
                 'label' => 'Image de l\'article',
                 'mapped' => false,
                 'required' => false,
-            ])
-            ->add('isPublished', CheckboxType::class, [
-                'label' => "Do u want to publish your article right now ? If not, your article will not be published but u can go to profile for change it later.",
-                'required' => false,
                 'constraints' => [
                     new File([
                         'mimeTypes' => ['image/png', 'image/jpg', 'image/jpeg'],
                         'mimeTypesMessage' => 'Please upload a valid PNG | JPG | JPEG file'
                     ])
                 ]
+            ])
+            ->add('isPublished', CheckboxType::class, [
+                'label' => "Do u want to publish your article right now ? If not, your article will not be published but u can go to profile for change it later.",
+                'required' => false,
             ])
             ->add('submit', SubmitType::class)
         ;
