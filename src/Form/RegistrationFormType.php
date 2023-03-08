@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -48,6 +49,12 @@ class RegistrationFormType extends AbstractType
             ->add('avatar', FileType::class, [
                 'label' => 'Profile photo',
                 'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => ['image/png'],
+                        'mimeTypesMessage' => 'Please upload a valid PNG file'
+                    ])
+                ]
             ])
             ->add('submit', SubmitType::class)
         ;

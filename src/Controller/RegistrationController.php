@@ -54,6 +54,7 @@ class RegistrationController extends AbstractController
 
                 $ext = $file->guessExtension();
 
+
                 if (!$ext) {
                     $ext = 'bin';
                 }
