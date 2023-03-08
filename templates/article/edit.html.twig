@@ -3,7 +3,7 @@
 {% block title %}Edit Article{% endblock %}
 
 {% block body %}
-    <h1>Edit Article</h1>
+    <h1>{{ 'Edit Article' | trans }}</h1>
     <div class="container-fluid mt4 w-80">
         {{ include('article/_form.html.twig', {'button_label': 'Update'}) }}
     </div>

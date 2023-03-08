@@ -8,7 +8,7 @@ return [
     'Login' => 'Connexion',
     'Show' => 'Voir',
     'Your profile' => 'Votre profil',
-    'Your articles' => 'VOs articles',
+    'Your articles' => 'Vos articles',
     'Publish status' => 'Publiez l\'article',
     'Add an new article' => 'Ajoutez un article',
     'No article yet' => 'Il n\'y a pas encore d\'article publié',
@@ -21,4 +21,7 @@ return [
     'Please sign in' => 'Se connecter',
     'Create new Article' => 'Créer un nouvelle article',
     'Create new Commentary' => 'Ajouter un commentaire',
+    'Edit Article' => ' Modifier l\'article',
+    'Your unpublished articles' => 'Vos articles non publiées',
+    'Your published articles' => 'Vos articles publiées',
 ];

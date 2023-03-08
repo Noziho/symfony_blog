@@ -3,26 +3,56 @@
 {% block title %}Profile{% endblock %}
 
 {% block body %}
-    <h1>Your profile</h1>
-    <img src="{{ '/uploads/' ~ user.getAvatar ~ '.png' }}" alt="Avatar">
+    <h1>{{ 'Your profile' | trans }}</h1>
+    <div class="w-100">
+        <img src="{{ '/uploads/' ~ user.getAvatar ~ '.png' }}" alt="Avatar">
+    </div>
 
 
     <div class="articles_container">
-        <h2>Your articles: </h2>
+        <div class="w-100">
+            <h3>{{ 'Your unpublished articles' | trans }}</h3>
+        </div>
         {% for article in user.articles.values %}
-            <div class="article">
-                <h2>{{ article.title }}</h2>
-                <div class="img-thumbnail container_article_image">
-                    <img class="card-img article_image" src="{{ asset('/uploads/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
+            {% if not article.isPublished %}
+                <div class="article">
+                    <h2>{{ article.title }}</h2>
+                    <div class="img-thumbnail container_article_image">
+                        <img class="card-img article_image" src="{{ asset('/uploads/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
+                    </div>
+                    <div class="article_content">
+                        <p>{{ article.content }}</p>
+                    </div>
+                    <div>
+                        <a href="{{ path('app_article_edit', {'id': article.id}) }}"><button class="border-success bg-success">
+                                {{ 'Publish status' | trans }}</button></a>
+
+                        {{ include('article/_delete_form.html.twig') }}
+
+                    </div>
                 </div>
-                <div class="article_content">
-                    <p>{{ article.content }}</p>
+                <div class="w-100 mt-4">
+                    <h3>{{ 'Your published articles' | trans }}</h3>
                 </div>
-                <div>
-                    <a href="{{ path('app_article_edit', {'id': article.id}) }}"><button class="border-success bg-success">
-                        {{ 'Publish status' | trans }}</button></a>
-                </div>
-            </div>
+                {% else %}
+                    <div class="article">
+                        <h2>{{ article.title }}</h2>
+                        <div class="img-thumbnail container_article_image">
+                            <img class="card-img article_image" src="{{ asset('/uploads/' ~ article.imageName  ~ '.' ~ article.imageExt ) }}" alt="Article image">
+                        </div>
+                        <div class="article_content">
+                            <p>{{ article.content }}</p>
+                        </div>
+                        <div class="edit_delete_container w-100">
+                            <a class="w-100" href="{{ path('app_article_edit', {'id': article.id}) }}"><button class=" w-25 border-success bg-success">
+                                    {{ 'Edit' | trans }}</button></a>
+
+                            {{ include('article/_delete_form.html.twig') }}
+
+                        </div>
+                    </div>
+            {% endif %}
+
         {% endfor %}
     </div>
 
