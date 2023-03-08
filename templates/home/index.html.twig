@@ -4,9 +4,9 @@
 
 {% block body %}
     {% if app.user %}
-        <h1>Welcome {{ app.user.email }}</h1>
+        <h1>{{ "Welcome"|trans ~ ' ' ~ app.user.email }}</h1>
         {% if is_granted('ROLE_AUTHOR') %}
-            <a href="{{ path('app_article_new') }}">Ajoutez un article</a>
+            <a href="{{ path('app_article_new') }}">{{ "Add an new article"|trans }}</a>
         {% endif %}
     {% endif %}
     <div class="articles_container">
@@ -25,14 +25,14 @@
                         <div class="edit_delete_container">
 
                             <a href="{{ path('app_article_show', {'id': article.id}) }}">
-                                <button>Show</button>
+                                <button>{{ 'Show' | trans }}</button>
                             </a>
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
         {% else %}
-            <p>No article yet</p>
+            <p>{{ 'No article yet' | trans }}</p>
         {% endif %}
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@
                 <p>{{ article.content }}</p>
             </div>
 
-            <h2 class="mt-3">Commentaries</h2>
+            <h2 class="mt-3">{{ 'Commentaries' | trans }}</h2>
             <div class="comments_container">
                 {% for comment in article.commentaries.values %}
                     <div class="comment">
@@ -23,10 +23,10 @@
                         {% if is_granted('ROLE_MODERATOR') %}
                             <div class="edit_delete_container">
                                 <a href="{{ path('app_commentary_edit', {'id': comment.id}) }}">
-                                    <button class="bg-success w-25">Edit</button>
+                                    <button class="bg-success w-25">{{ 'Edit' | trans }}</button>
                                 </a>
                                 <a href="{{ path('app_commentary_delete', {'id': comment.id}) }}">
-                                    <button class="bg-danger w-25">Delete</button>
+                                    <button class="bg-danger w-25">{{ 'Delete' | trans }}</button>
                                 </a>
                             </div>
                         {% endif %}
@@ -36,13 +36,14 @@
 
             {% if app.user %}
                 <div class="display_block mt-4">
-                    <a id="white_link" href="{{ path('app_commentary_new', {'id': article.id}) }}"><button class="btn btn-primary">Add comment</button></a>
+                    <a id="white_link" href="{{ path('app_commentary_new', {'id': article.id}) }}"><button class="btn btn-primary">
+                        {{ 'Add comment' |trans }}</button></a>
                 </div>
             {% endif %}
 
             {% if is_granted('ROLE_AUTHOR') and app.user is same as(article.author)  %}
                 <a class="w-25 mt-4" href="{{ path('app_article_edit', {'id': article.id}) }}">
-                    <button class="bg-success border-success w-100">Edit</button>
+                    <button class="bg-success border-success w-100">{{ 'Edit' | trans }}</button>
                 </a>
 
                 {{ include('article/_delete_form.html.twig') }}

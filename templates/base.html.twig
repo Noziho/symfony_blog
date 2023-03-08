@@ -19,12 +19,12 @@
 
         <div>
             {% if app.user %}
-                <a href="{{ path('app_user') }}">Profile</a>
-                <a href="{{ path('app_logout') }}">Logout</a>
+                <a href="{{ path('app_user') }}">{{ 'Profile' | trans }}</a>
+                <a href="{{ path('app_logout') }}">{{ 'Logout' | trans }}</a>
                 <a href="{{ path('app_user') }}"><img class="avatar" src="{{ '/uploads/' ~ app.user.avatar ~ '.png' }}" alt="Avatar"></a>
             {% else %}
-                <a href="{{ path('app_register') }}">Register</a>
-                <a href="{{ path('app_login') }}">Login</a>
+                <a href="{{ path('app_register') }}">{{ 'Register' | trans }}</a>
+                <a href="{{ path('app_login') }}">{{ 'Login' | trans }}</a>
             {% endif %}
         </div>
 
