@@ -34,10 +34,13 @@ class ArticleController extends AbstractController
 
         $article = new Article();
         $article->setAuthor($this->getUser());
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $article->setSlug(strtolower($slugger->slug($form['title']->getData().uniqid())));
             $this->uploadImage($form['imageName'], $slugger, $article, $container, $articleRepository);
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
@@ -49,7 +52,7 @@ class ArticleController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'app_article_show', methods: ['GET'])]
     public function show(Article $article): Response
     {
         return $this->render('article/show.html.twig', [
@@ -70,7 +73,7 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->uploadImage($form['imageName'], $slugger, $article, $container, $articleRepository);
 
-            return $this->redirectToRoute('app_article_show', ['id'=> $article->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_article_show', ['slug'=> $article->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('article/edit.html.twig', [
