@@ -29,6 +29,7 @@ class CommentaryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Commentary::class,
+            'sanitize_html' => true,
         ]);
     }
 }
