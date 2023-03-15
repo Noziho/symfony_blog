@@ -2,7 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,4 +47,26 @@ class UserController extends AbstractController
 
         return $avatars[$random];
     }
+
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    #[Route('/delete/{email}', name: "app_user_delete")]
+    public function delete(User $user, Request $request, UserRepository $userRepository): RedirectResponse
+    {
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $userRepository->remove($user, true);
+
+        $request->getSession()->invalidate();
+        $this->container->get('security.token_storage')->setToken();
+        return $this->redirectToRoute('app_home');
+
+    }
+
+
 }

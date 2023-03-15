@@ -55,5 +55,6 @@
 
         {% endfor %}
     </div>
+    <a class="bg-danger" href="{{ path('app_user_delete', {"email": app.user.email })}}">Delete ur account</a>
 
 {% endblock %}
