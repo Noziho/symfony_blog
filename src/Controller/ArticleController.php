@@ -110,22 +110,19 @@ class ArticleController extends AbstractController
         if ($file) {
             $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFileName = $slugger->slug($originalFileName);
-            $newFileName = $safeFileName . '-' . uniqid();
+            $ext = $file->guessExtension();
+            $newFileName = $safeFileName . '-' . uniqid() . $ext;
             $article->setImageName($newFileName);
 
-            $ext = $file->guessExtension();
 
             if (!$ext) {
                 $ext = 'bin';
             }
 
-            $article->setImageExt($ext);
-
             $file->move($container->get('upload.directory'), $newFileName . '.' . $ext);
 
         } else {
-            $article->setImageName('defaultImage');
-            $article->setImageExt('png');
+            $article->setImageName('defaultImage.png');
         }
 
         $articleRepository->save($article, true);
