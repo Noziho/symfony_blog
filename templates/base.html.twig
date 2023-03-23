@@ -26,6 +26,9 @@
                 <a href="{{ path('app_register') }}">{{ 'Register' | trans }}</a>
                 <a href="{{ path('app_login') }}">{{ 'Login' | trans }}</a>
             {% endif %}
+
+            <div><a href="{{ path('app_switch_locale', {locale: 'fr'}) }}">FR</a></div>
+            <div><a href="{{ path('app_switch_locale', {locale: 'en'}) }}">EN</a></div>
         </div>
 
     </header>
