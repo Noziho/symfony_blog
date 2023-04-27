@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
-use App\Entity\Commentary;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -12,8 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Image;
+
 
 class ArticleCrudController extends AbstractCrudController
 {
@@ -31,7 +29,7 @@ class ArticleCrudController extends AbstractCrudController
             TextField::new('description'),
             ImageField::new('image_name')
                 ->setUploadDir('/public/uploads')
-                ->setRequired('false')
+                ->setRequired(false)
                 ->setUploadedFileNamePattern('[slug]-[contenthash].[extension]'),
             SlugField::new('slug')->setTargetFieldName('title'),
             BooleanField::new('is_published'),
